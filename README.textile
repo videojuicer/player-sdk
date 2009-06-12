@@ -1,0 +1,35 @@
+h1. Videojuicer Player SDK
+
+h2. Configuration
+
+You must create a `config.yml` to define the build tasks for the `playersdk` to use, the configuration file uses standard YAML syntaxs.
+
+	---
+	# Flex SDK location
+	flex_sdk: "/Applications/Adobe\ Flex\ Builder\ 3/sdks/3.3.0"
+	
+	# Flex framework version, the bundled RSLs are specific
+	flex_framework_version: "framework_3.3.0.4852"
+	
+	# List of tasks the SDK will complete
+	tasks:
+	  # Copies the Flex framework RSLs into the build folder
+	  "framework": {
+	      type: framework,
+	      framework_rsl: 'framework_3.3.0.4852'
+	  }
+	  # Compiles an Addon for use with the Videojuicer Player 
+	  "player-addon": {
+	      type: addon,
+	      src: vj-player-ui/src, main: DefaultUI.mxml,
+	      sdk: true,
+	      engine: "builds/vj-player-engine",
+	      libs: false,
+	      target: player-addon
+	  }
+	
+h2. TODO
+
+- Tests
+- Expand README
+- License
