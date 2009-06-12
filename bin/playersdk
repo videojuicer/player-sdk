@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+ 
+$:.unshift File.join(File.dirname(__FILE__), *%w[.. lib])
+ 
+help = <<HELP
+Videojuicer Player 3.0 SDK 
+ 
+Basic Command Line Usage:
+  playersdk                                                    # . -> ./_site
+  playersdk  <path to write generated site>                    # . -> <path>
+  playersdk  <path to source> <path to write generated site>   # <path> -> <path>
+ 
+  Configuration is read from '<source>/_config.yml' but can be overriden
+  using the following options:
+ 
+HELP
+ 
+require 'optparse'
+require 'playersdk'
+ 
+exec = { }
+options = { }
+
+opts = OptionParser.new do |opts|
+  opts.banner = help
+
+  opts.on("--build-dir [DIR]", "Location of the build targets") do |location|
+    options['build_dir'] = location unless location.nil?
+  end
+  
+  opts.on("--workspace-dir [DIR]", "Location of the workspace directory") do |location|
+    options['workspace_dir'] = location unless location.nil?
+  end
+  
+  opts.on("--verbose", "Use verbose ouput mode") do
+    options['verbose'] = true
+  end
+ 
+  opts.on("--version", "Display current version") do
+    puts "Videojuicer Player SDK " + PlayerSDK.version
+    exit 0
+  end
+end
+ 
+# Read command line options into `options` hash
+opts.parse!
+ 
+# Get source and destintation from command line
+case ARGV.size
+  when 0
+  when 1
+    options['workspace_dir'] = ARGV[0]
+  else
+    puts "Invalid options. Run `playersdk --help` for assistance."
+    exit(1)
+end
+
+config = PlayerSDK.configuration(options)
+
+# Creates a new PlayerSDK compiler instance
+compiler = PlayerSDK::Compiler.new(config)
+
+compiler.process()
