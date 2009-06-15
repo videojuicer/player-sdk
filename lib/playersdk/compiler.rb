@@ -19,10 +19,6 @@ module PlayerSDK
            
            puts "\n\n"
            puts "Completed #{tasks.length} tasks(s)"
-           
-           if self.config['player_src'] != ''
-               #self.compiler.compile_mxmlc(self.config['player_source'], 'src/Main.mxml', true, true, false, 'vj-player.swf', self.config['build_dir'])
-           end
        end
        
        def run_task(key, value)
@@ -36,7 +32,9 @@ module PlayerSDK
                   
                   puts "Optimizing engine swf .."
                   
-                  self.compiler.optimize_swc(value['target'], self.config['build_dir'])
+                  optimize_target = value['optimize_target'] != '' ? value['optimize_target'] : value['target']
+                  
+                  self.compiler.optimize_swc(value['target'], optimize_target, self.config['build_dir'])
               when "addon"
                   self.compiler.compile_mxmlc(value['src'], value['main'], value['sdk'], value['engine'], value['libs'], value['target'], self.config['build_dir'], self.config['deployment_url'])
               when "framework"

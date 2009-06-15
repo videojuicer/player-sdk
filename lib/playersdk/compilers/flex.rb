@@ -24,16 +24,16 @@ module PlayerSDK
                 `#{command}`
               end
            end
-           
+      
            def compile_mxmlc(source_path, main_file, include_sdk, include_engine, include_libs, output_file, output_dir, deployment_url)
               command ="#{executable('mxmlc')} -compiler.source-path #{source_path} -file-specs #{source_path}/#{main_file} -static-link-runtime-shared-libraries=false"
           
                if include_sdk
-                   command += " -runtime-shared-library-path=#{config['flex_sdk']}/frameworks/libs/framework.swc,framework.swz,#{deployment_url}crossdomain.xml,framework.swf"
+                   command += " -runtime-shared-library-path=#{config['flex_sdk']}/frameworks/libs/framework.swc,#{deployment_url}/framework.swz,#{config['crossdomain_url']}/crossdomain.xml,#{deployment_url}/framework.swf"
                end
            
                if include_engine
-                  command += " -runtime-shared-library-path=#{include_engine}.swc,#{deployment_url}#{output_file}" 
+                  command += " -runtime-shared-library-path=#{include_engine}.swc,#{deployment_url}/vj-player-engine.swf"
                end
                
                if include_libs
@@ -41,7 +41,7 @@ module PlayerSDK
                end
            
                command += " -use-network -benchmark -compiler.strict --show-actionscript-warnings=true -compiler.optimize -compiler.as3"
-               command += " -output #{output_dir}/#{output_file}.swf"
+               command += " -output #{output_dir}/#{output_file}"
            
                run_command(command)
            end
@@ -50,11 +50,11 @@ module PlayerSDK
                command = "#{executable('compc')} -source-path #{source_path} -include-sources #{source_path}"
            
                if include_sdk
-                   command += " -runtime-shared-library-path=#{config['flex_sdk']}/#{config['flex_framework_swc']},#{deployment_url}/#{config['flex_framework_version']}.swz,#{deployment_url}crossdomain.xml,#{deployment_url}/#{config['flex_framework_version']}.swf"
+                   command += " -runtime-shared-library-path=#{config['flex_sdk']}/#{config['flex_framework_swc']},#{deployment_url}/framework.swz,#{config['crossdomain_url']}/crossdomain.xml,#{deployment_url}/framework.swf"
                end
            
                if include_engine
-                  command += " -runtime-shared-library-path=#{include_engine}.swc,#{deployment_url}#{output_file}.swf" 
+                  command += " -runtime-shared-library-path=#{include_engine}.swc,#{deployment_url}/vj-player-engine.swf" 
                end
            
                if include_libs
@@ -62,19 +62,22 @@ module PlayerSDK
                end
            
                command += " -use-network -benchmark -compiler.strict --show-actionscript-warnings=true -compiler.optimize -compiler.as3"
-               command += " -output #{output_dir}/#{output_file}.swc"
+               command += " -output #{output_dir}/#{output_file}"
            
                run_command(command)
            end
        
-           def optimize_swc(output_file, output_dir)
-            self.unzip("#{output_dir}/#{output_file}.swc", "#{config['temp_dir']}")
+           def optimize_swc(input_swc, output_file, output_dir)
+           	# extract
+            self.unzip("#{output_dir}/#{input_swc}", "#{config['temp_dir']}")
             
-            command = "#{executable('optimizer')} -input #{config['temp_dir']}/library.swf -output #{output_dir}/#{output_file}.swf --keep-as3-metadata='Bindable,Managed,ChangeEvent,NonCommittingChangeEvent,Transient'"
+            # optimize
+            command = "#{executable('optimizer')} -input #{config['temp_dir']}/library.swf -output #{output_dir}/#{output_file} --keep-as3-metadata='Bindable,Managed,ChangeEvent,NonCommittingChangeEvent,Transient'"
             
             run_command(command)
             
-            command = "#{executable('digest')} --digest.swc-path #{output_dir}/#{output_file}.swc --digest.rsl-file #{output_dir}/#{output_file}.swf"
+            # update digest information
+            command = "#{executable('digest')} --digest.swc-path #{output_dir}/#{input_swc} --digest.rsl-file #{output_dir}/#{output_file}"
             
             run_command(command)
            end

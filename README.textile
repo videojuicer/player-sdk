@@ -2,7 +2,7 @@ h1. Videojuicer Player SDK
 
 h2. Configuration
 
-You must create a `config.yml` to define the build tasks for the `playersdk` to use, the configuration file uses standard YAML syntaxs.
+You must create a `config.yml` to define the build tasks for the `playersdk` to use, the configuration file uses standard "YAML":http://en.wikipedia.org/wiki/YAML syntaxs.
 
 	---
 	# Flex SDK location
@@ -30,6 +30,6 @@ You must create a `config.yml` to define the build tasks for the `playersdk` to 
 	
 h2. TODO
 
-- Tests
-- Expand README
-- License
+# Tests
+# Expand README
+ License

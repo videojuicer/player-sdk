@@ -24,7 +24,8 @@ module PlayerSDK
       'flex_framework_swc' => 'frameworks/libs/framework.swc',
       'flex_framework_version' => '',
       'tasks' => '',
-      'verbose' => false
+      'verbose' => false,
+      'deployment_url' => ''
   }
  
   # Generate a Player SDK configuration Hash by merging the default options
