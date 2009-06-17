@@ -86,8 +86,14 @@ module PlayerSDK
               Zip::ZipFile.open(file) { |zip_file|
                   zip_file.each { |f|
                       f_path = File.join(destination, f.name)
+                      
+                      if File.exist?(f_path) then
+                      	FileUtils.rm_rf f_path
+                      end
+                      
                       FileUtils.mkdir_p(File.dirname(f_path))
-                      zip_file.extract(f, f_path) unless File.exist?(f_path)
+                      
+                      zip_file.extract(f, f_path) # unless File.exist?(f_path)
                   }
               } 
            end

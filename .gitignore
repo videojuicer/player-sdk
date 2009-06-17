@@ -1,4 +1,5 @@
 .DS_Store
+*.esproj
 bin/
 tmp/
 pkg/
