@@ -37,29 +37,33 @@ module PlayerSDK
        end
        
        def find_version
-           file = File.read("#{self.config['build_dir']}/version.properties")
+           if File.exists?("#{self.config['build_dir']}/version.properties")
+             file = File.read("#{self.config['build_dir']}/version.properties")
            
-           if (file == nil)
-               puts "No version file found"
-               return
-           end
+             if (file == nil)
+                 puts "Something went wrong reading the file"
+                 return
+             end
            
-           version_s = ""
-           file.scan(/version.([a-z]+) = ('?)([\w]+)('?)/i).each { |key, q1, value, q2|
-               if value != ''
-                   if key == 'text'
-                       version_s = version_s.slice(0, version_s.length - 1)
-                   end
+             version_s = ""
+             file.scan(/version.([a-z]+) = ('?)([\w]+)('?)/i).each { |key, q1, value, q2|
+                 if value != ''
+                     if key == 'text'
+                         version_s = version_s.slice(0, version_s.length - 1)
+                     end
                    
-                   version_s += "#{value}."
-               end
-           }
+                     version_s += "#{value}."
+                 end
+             }
            
-           version_s = version_s.slice(0, version_s.length - 1)
+             version_s = version_s.slice(0, version_s.length - 1)
            
-           self.version = version_s
+             self.version = version_s
            
-           puts "Using version #{self.version}"
+             puts "Using version #{self.version}"
+            else
+              puts "No version file found"
+            end
        end
        
        def run_task(key, value)
