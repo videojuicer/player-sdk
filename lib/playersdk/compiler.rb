@@ -94,10 +94,9 @@ module PlayerSDK
                   puts "Moving Flex framework RSLs to #{value['target']}"
                   
                   self.compiler.run_command("cp #{config['flex_sdk']}/frameworks/rsls/#{value['framework_rsl']}.swz #{config['build_dir']}/#{value['target']}.swz")
-                  
                   self.compiler.run_command("cp #{config['flex_sdk']}/frameworks/rsls/#{value['framework_rsl']}.swf #{config['build_dir']}/#{value['target']}.swf")
                   
-                  self.compiler.run_command("chmod 644 #{config['build_dir']}/#{config['target']}.sw*")
+                  #self.compiler.run_command("chmod 644 #{config['build_dir']}/#{config['target']}.sw*")
               when "clean"
                   puts "Cleaning directories ..."
                   

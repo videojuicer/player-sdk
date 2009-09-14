@@ -19,7 +19,7 @@ module PlayerSDK
   DEFAULTS = {
       'build_dir' => 'builds',
       'temp_dir' => 'tmp',
-      'workspace_dir' => '.',
+      'config_path' => './config.yml',
       'flex_sdk' => '',
       'flex_framework_swc' => 'frameworks/libs/framework.swc',
       'flex_framework_version' => '',
@@ -36,14 +36,14 @@ module PlayerSDK
   def self.configuration(override)
     # _config.yml may override default source location, but until
     # then, we need to know where to look for _config.yml
-    workspace_dir = override['workspace_dir'] || PlayerSDK::DEFAULTS['workspace_dir']
+    config_path = override['config_path'] || PlayerSDK::DEFAULTS['config_path']
  
     # Get configuration from <source>/config.yml
     config = {}
-    config_file = File.join(workspace_dir, 'config.yml')
+
     begin
-      config = YAML.load_file(config_file)
-      puts "Configuration from #{config_file}"
+      config = YAML.load_file(config_path)
+      puts "Configuration from #{config_path}"
     rescue => err
       puts "WARNING: Could not read configuration. Using defaults (and options)."
       puts "\t" + err
