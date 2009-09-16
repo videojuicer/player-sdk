@@ -40,11 +40,11 @@ end
 # Read command line options into `options` hash
 opts.parse!
  
-# Get source and destintation from command line
+# Get config path from the command line
 case ARGV.size
   when 0
   when 1
-    options['workspace_dir'] = ARGV[0]
+    options['config_path'] = ARGV[0]
   else
     puts "Invalid options. Run `playersdk --help` for assistance."
     exit(1)

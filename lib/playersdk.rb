@@ -17,7 +17,7 @@ module PlayerSDK
   # Default options. Overriden by values in config.yml or command-line opts.
   # (Strings rather symbols used for compatability with YAML)
   DEFAULTS = {
-      'build_dir' => 'builds',
+      'build_dir' => '.',
       'temp_dir' => 'tmp',
       'config_path' => './config.yml',
       'flex_sdk' => '',

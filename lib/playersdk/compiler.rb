@@ -62,7 +62,7 @@ module PlayerSDK
            
              puts "Using version #{self.version}"
             else
-              puts "No version file found"
+              puts "No version file found at #{self.config['build_dir']}/version.properties"
             end
        end
        
