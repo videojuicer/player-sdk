@@ -13,27 +13,32 @@ module PlayerSDK
            
            puts "Found #{tasks.length} task(s) to process"
            
-           # find the copy tasks
-           tasks.each do |key,value|
-               if value['type'] == 'copy'
-                   self.run_task(key, value)
+           if tasks.length != 0
+             # find the copy tasks
+             tasks.each do |key,value|
+                 if value['type'] == 'copy'
+                     self.run_task(key, value)
+                 end
+             end
+           
+             find_version
+           
+             if self.version != nil
+               self.config['deployment_url'] = self.config['deployment_url'].gsub("%V", self.version)
+           
+               puts "Deployment url set to: #{self.config['deployment_url']}"
+           
+               tasks.each do |key,value|
+                   if value['type'] != 'copy'
+                      self.run_task(key, value)
+                  end
                end
+             
+               puts "\n\n"
+            end
+           
+             puts "Completed #{tasks.length} tasks(s)"
            end
-           
-           find_version
-           
-           self.config['deployment_url'] = self.config['deployment_url'].gsub("%V", self.version)
-           
-           puts "Deployment url set to: #{self.config['deployment_url']}"
-           
-           tasks.each do |key,value|
-               if value['type'] != 'copy'
-                  self.run_task(key, value)
-              end
-           end
-           
-           puts "\n\n"
-           puts "Completed #{tasks.length} tasks(s)"
        end
        
        def find_version

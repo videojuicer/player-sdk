@@ -6,14 +6,16 @@ begin
   gem 'jeweler', '>= 1.0.1'
   require 'jeweler'
   Jeweler::Tasks.new do |s|
-    s.name = "player-sdk"
+    s.name = "vj-player-sdk"
     s.summary = %Q{Videojuicer Player SDK runtime and compiler to create and build Player Addons.}
-    s.email = "sixones@me.com"
-    s.homepage = "http://player.videojuicer.com"
+    s.homepage = "http://videojuicer.com/"
+    s.email = "adam@videojuicer.com"
     s.description = "Videojuicer Player SDK runtime and compiler to create and build Player Addons."
-    s.authors = ["Adam Livesley"]
+    s.authors = ["sixones", "danski"]
     s.files.exclude 'test/dest'
     s.test_files.exclude 'test/dest'
+    
+    # Dependencies
     s.add_dependency('open4', '>= 0.9.6')
     s.add_dependency('rubyzip', '>= 0.9.1')
   end
